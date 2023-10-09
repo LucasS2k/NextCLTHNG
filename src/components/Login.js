@@ -1,66 +1,58 @@
-import { LoginStyled } from "../styles/LoginStyles";
-import { Formik } from "formik";
-import * as Yup from "yup";
 import React, { useState } from "react";
-import Input from "./Input";
-import { Link } from "react-router-dom";
-import { loginUser } from "../axios/axiosUser";
-import { useDispatch } from "react-redux";
-
-const validationSchema = Yup.object({
-  ingresaremail: Yup.string()
-    .trim()
-    .email("Email inválido")
-    .required("Ingrese un Email"),
-  password: Yup.string().required("Por favor, ingrese su contraseña"),
-});
-
+import axios from "axios";
+import { InputStyled } from "../styles/FormStyles";
+import { LoginStyled } from "../styles/LoginStyles";
 const Login = () => {
-  const dispatch = useDispatch();
-  const [user, setUser] = useState(null);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "https://next-api-taupe.vercel.app/auth/login",
+        formData
+      );
+
+      console.log("Sesion iniciada", response.data);
+    } catch (error) {
+      console.error("Inicio de sesion fallido", error);
+    }
+  };
 
   return (
-    <Formik
-      initialValues={{ ingresaremail: "", password: "" }}
-      validationSchema={validationSchema}
-      onSubmit={async (values) => {
-        const loggedInUser = await loginUser(
-          values.ingresaremail,
-          values.password
-        );
-        if (loggedInUser) {
-          dispatch(
-            setUser({
-              ...loggedInUser.usuario,
-              token: loggedInUser.token,
-            })
-          );
-          setUser(loggedInUser);
-        }
-      }}
-    >
-      {({ errors, touched }) => (
-        <LoginStyled>
-          <div className="formulario">
-            <Input
-              isError={errors.ingresaremail && touched.ingresaremail}
-              name="ingresaremail"
-              label="Email:"
-              type="email"
-            ></Input>
-            <Input
-              isError={errors.password && touched.password}
-              name="password"
-              label="Contraseña:"
-              type="password"
-            ></Input>
-            <input type="submit" className="submitbutton" />
-            <Link to="/login">Olvidé mi contraseña</Link>
-            <Link to="/register">Crear una cuenta</Link>
-          </div>
-        </LoginStyled>
-      )}
-    </Formik>
+    <LoginStyled onSubmit={handleSubmit}>
+      <div className="formulario">
+        <label htmlFor="email">Ingrese su Email:</label>
+        <InputStyled
+          name="email"
+          type="email"
+          placeholder="Ingrese su Email:"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <label htmlFor="password">Ingrese su contraseña:</label>
+        <InputStyled
+          name="password"
+          type="password"
+          placeholder="Ingrese su contraseña:"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <input type="submit" className="submitbutton" />
+
+        <a href="/login">Olvidé mi contraseña</a>
+        <a href="/register">Crear una cuenta</a>
+      </div>
+    </LoginStyled>
   );
 };
 

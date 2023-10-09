@@ -11,6 +11,7 @@ const Input = ({ label, type, name, isError }) => {
         id={label}
         error={isError}
         as={InputStyled}
+        value={FormData.name}
         placeholder={label}
       />
       <ErrorMessage name={name} component={ErrorStyled} />
