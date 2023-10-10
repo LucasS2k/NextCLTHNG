@@ -4,7 +4,7 @@ import ProductsList from "./ProductsList";
 import { ButtonCategory } from "./ButtonCategory";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import SkeletonCard from "./SkeletonCard";
 const Catalogue = () => {
   const [categories, setCategories] = useState(["Todos"]);
   const [products, setProducts] = useState([]);
@@ -50,7 +50,7 @@ const Catalogue = () => {
       <div className="linea"></div>
       <div className="categories">
         {loading ? (
-          <p>Loading...</p>
+          Array.from({ length: 14 }, (_, index) => <SkeletonCard key={index} />)
         ) : (
           <ButtonCategory
             categories={categories}
