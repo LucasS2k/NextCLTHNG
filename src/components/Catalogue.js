@@ -5,10 +5,13 @@ import { ButtonCategory } from "./ButtonCategory";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SkeletonCard from "./SkeletonCard";
+
 const Catalogue = () => {
   const [categories, setCategories] = useState(["Todos"]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [originalProducts, setOriginalProducts] = useState([]);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -24,6 +27,7 @@ const Catalogue = () => {
 
         setCategories(allCategories);
         setProducts(data);
+        setOriginalProducts(data);
         setLoading(false);
       } catch (error) {
         console.error("Error getting data", error);
@@ -35,9 +39,9 @@ const Catalogue = () => {
 
   const filterCategory = (category) => {
     if (category === "Todos") {
-      setProducts(products);
+      setProducts(originalProducts);
     } else {
-      const filteredData = products.filter(
+      const filteredData = originalProducts.filter(
         (product) => product.category === category
       );
       setProducts(filteredData);

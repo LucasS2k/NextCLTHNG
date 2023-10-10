@@ -7,8 +7,11 @@ import {
   toggleHiddenCart,
 } from "../redux/cart/cartSlice";
 import CartCard from "./CartCard";
-
+import { current } from "@reduxjs/toolkit";
+import { setCurrentUser } from "../redux/user/userSlice";
+import { UseSelector } from "react-redux";
 const Cart = () => {
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const hiddenCart = useSelector((state) => state.cart.hidden);
   const { cartItems } = useSelector((state) => state.cart);
@@ -19,6 +22,33 @@ const Cart = () => {
     (acc, item) => (acc += item.quantity),
     0
   );
+
+  const sendOrderToBackend = async (orderData) => {
+    try {
+      const response = await fetch(
+        "https://next-api-taupe.vercel.app/orders/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MjMyZjNiMjg5NGUxM2FjYTE3OWRjZSIsImlhdCI6MTY5Njk3MzY1OCwiZXhwIjoxNjk2OTg4MDU4fQ.c5jkUkqqWZWPlQ0axEag3oPvex5OZyvgTjM0BZL9bgI",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
+      console.log(user);
+      if (response.ok) {
+        alert("Su compra está en camino");
+        dispatch(clearCart());
+      } else {
+        alert("Error al enviar la orden");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <>
       {!hiddenCart && (
@@ -56,7 +86,21 @@ const Cart = () => {
               <button
                 id="finalizarCompra"
                 className="submitbutton"
-                onClick={() => dispatch(finishBuying())}
+                onClick={async () => {
+                  if (window.confirm("Finalizar compra?")) {
+                    const orderData = {
+                      createdAt: new Date(),
+                      user: current,
+                      price: precioTotal,
+                      shippingCost: 0,
+                      items: cartItems,
+                      shippingDetails: {},
+                      status: "pending",
+                      total: precioTotal,
+                    };
+                    await sendOrderToBackend(orderData);
+                  }
+                }}
               >
                 Finalizar Compra
               </button>

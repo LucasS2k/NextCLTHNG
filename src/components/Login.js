@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { InputStyled } from "../styles/FormStyles";
 import { LoginStyled } from "../styles/LoginStyles";
-
+import { setCurrentUser } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 const Login = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,12 +20,19 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
+      const user = await axios.post(
         "https://next-api-taupe.vercel.app/auth/login",
         formData
       );
-
-      console.log("Sesion iniciada", response.data);
+      if (user) {
+        dispatch(
+          setCurrentUser({
+            ...user.usuario,
+            token: user.token,
+          })
+        );
+      }
+      console.log("Sesion iniciada", user.data);
     } catch (error) {
       console.error("Inicio de sesion fallido", error);
     }
