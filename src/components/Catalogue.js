@@ -1,37 +1,62 @@
 import { CatalogueStyled } from "../styles/CatalogueStyles";
 import { stockProductos } from "../assets/img/data/data";
-import { useState } from "react";
 import ProductsList from "./ProductsList";
 import { ButtonCategory } from "./ButtonCategory";
-const Catalogue = () => {
-  const allCategories = [
-    "Todos",
-    ...new Set(stockProductos.map((article) => article.category)),
-  ];
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-  const [categories] = useState(allCategories);
-  const [products, setProducts] = useState(stockProductos);
+const Catalogue = () => {
+  const [categories, setCategories] = useState(["Todos"]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "https://next-api-taupe.vercel.app/products/all"
+        );
+        console.log(response.data.products);
+        const data = response.data.products;
+        const allCategories = [
+          "Todos",
+          ...new Set(data.map((article) => article.category)),
+        ];
+
+        setCategories(allCategories);
+        setProducts(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error getting data", error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const filterCategory = (category) => {
     if (category === "Todos") {
-      setProducts(stockProductos);
-      return;
+      setProducts(products);
+    } else {
+      const filteredData = products.filter(
+        (product) => product.category === category
+      );
+      setProducts(filteredData);
     }
-
-    const filteredData = stockProductos.filter(
-      (product) => product.category === category
-    );
-    setProducts(filteredData);
   };
+
   return (
     <CatalogueStyled>
       <h2 className="subtitle">Catálogo</h2>
       <div className="linea"></div>
       <div className="categories">
-        <ButtonCategory
-          categories={categories}
-          filterCategory={filterCategory}
-        />
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <ButtonCategory
+            categories={categories}
+            filterCategory={filterCategory}
+          />
+        )}
       </div>
       <div className="productContainer">
         <ProductsList products={products} />
@@ -39,4 +64,5 @@ const Catalogue = () => {
     </CatalogueStyled>
   );
 };
+
 export default Catalogue;

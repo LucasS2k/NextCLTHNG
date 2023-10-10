@@ -6,14 +6,14 @@ const ProductCard = ({
   id,
   nombre,
   precio,
-  productImg,
+  productImage,
   category,
   cantidad,
 }) => {
   const dispatch = useDispatch();
   return (
     <div className="item">
-      <img src={productImg} alt={nombre} />
+      <img src={productImage} alt={nombre} />
       <div className="itemdescription">
         <p>{nombre}</p>
       </div>
@@ -26,7 +26,7 @@ const ProductCard = ({
                 id,
                 nombre,
                 precio,
-                productImg,
+                productImage,
                 category,
                 cantidad,
               })
@@ -37,7 +37,7 @@ const ProductCard = ({
           data-name={nombre}
           data-category={category}
           data-value={precio}
-          data-img={productImg}
+          data-img={productImage}
           data-quantity={cantidad}
         >
           Agregar al carrito
