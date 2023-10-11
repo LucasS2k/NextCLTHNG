@@ -90,7 +90,7 @@ const Cart = () => {
                   if (window.confirm("Finalizar compra?")) {
                     const orderData = {
                       createdAt: new Date(),
-                      user: current,
+                      user: user,
                       price: precioTotal,
                       shippingCost: 0,
                       items: cartItems,
@@ -98,6 +98,7 @@ const Cart = () => {
                       status: "pending",
                       total: precioTotal,
                     };
+                    console.log(orderData);
                     await sendOrderToBackend(orderData);
                   }
                 }}
