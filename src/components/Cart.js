@@ -65,6 +65,7 @@ const Cart = () => {
             <div id="cartContainer" className="carrito-contenedor">
               {cartItems.length ? (
                 cartItems.map((item) => {
+                  console.log(cartItems);
                   return <CartCard {...item} key={item.id} />;
                 })
               ) : (
