@@ -1,6 +1,5 @@
 import React from "react";
 import { StyledHero } from "../styles/HeroStyles";
-import HeroImage from "../assets/img/hero6.png";
 import ImageSlider from "./SliderController";
 import { SliderData } from "../assets/img/data/SliderData";
 const Hero = () => {
