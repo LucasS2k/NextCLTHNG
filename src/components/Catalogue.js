@@ -1,5 +1,4 @@
 import { CatalogueStyled } from "../styles/CatalogueStyles";
-import { stockProductos } from "../assets/img/data/data";
 import ProductsList from "./ProductsList";
 import { ButtonCategory } from "./ButtonCategory";
 import React, { useState, useEffect } from "react";
@@ -18,7 +17,6 @@ const Catalogue = () => {
         const response = await axios.get(
           "https://next-api-taupe.vercel.app/products/all"
         );
-        console.log(response.data.products);
         const data = response.data.products;
         const allCategories = [
           "Todos",

@@ -1,17 +1,18 @@
 import React from "react";
 import { CartStyled } from "../styles/CartStyles";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import {
   clearCart,
   finishBuying,
   toggleHiddenCart,
 } from "../redux/cart/cartSlice";
 import CartCard from "./CartCard";
-import { current } from "@reduxjs/toolkit";
-import { setCurrentUser } from "../redux/user/userSlice";
-import { UseSelector } from "react-redux";
 const Cart = () => {
-  const user = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => state.currentUser);
+  if (currentUser) {
+    console.log(currentUser);
+  }
   const dispatch = useDispatch();
   const hiddenCart = useSelector((state) => state.cart.hidden);
   const { cartItems } = useSelector((state) => state.cart);
@@ -23,32 +24,31 @@ const Cart = () => {
     0
   );
 
-  const sendOrderToBackend = async (orderData) => {
+  const sendOrderToDB = async (orderData) => {
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "https://next-api-taupe.vercel.app/orders/create",
+        orderData,
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MjMyZjNiMjg5NGUxM2FjYTE3OWRjZSIsImlhdCI6MTY5Njk3MzY1OCwiZXhwIjoxNjk2OTg4MDU4fQ.c5jkUkqqWZWPlQ0axEag3oPvex5OZyvgTjM0BZL9bgI",
+            "x-token": currentUser.token,
           },
-          body: JSON.stringify(orderData),
         }
       );
-      console.log(user.data);
-      if (response.ok) {
+
+      console.log(currentUser);
+
+      if (response.status === 200) {
         alert("Su compra está en camino");
         dispatch(clearCart());
       } else {
         alert("Error al enviar la orden");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error", error);
     }
   };
-
   return (
     <>
       {!hiddenCart && (
@@ -65,7 +65,6 @@ const Cart = () => {
             <div id="cartContainer" className="carrito-contenedor">
               {cartItems.length ? (
                 cartItems.map((item) => {
-                  console.log(cartItems);
                   return <CartCard {...item} key={item.id} />;
                 })
               ) : (
@@ -91,7 +90,7 @@ const Cart = () => {
                   if (window.confirm("Finalizar compra?")) {
                     const orderData = {
                       createdAt: new Date(),
-                      user: user,
+                      user: currentUser,
                       price: precioTotal,
                       shippingCost: 0,
                       items: cartItems,
@@ -100,7 +99,8 @@ const Cart = () => {
                       total: precioTotal,
                     };
                     console.log(orderData);
-                    await sendOrderToBackend(orderData);
+                    await sendOrderToDB(orderData);
+                    finishBuying();
                   }
                 }}
               >

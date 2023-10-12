@@ -32,7 +32,7 @@ const Login = () => {
           })
         );
       }
-      console.log("Sesion iniciada", user.data);
+      console.log("Sesion iniciada", user.data.token);
     } catch (error) {
       console.error("Inicio de sesion fallido", error);
     }
