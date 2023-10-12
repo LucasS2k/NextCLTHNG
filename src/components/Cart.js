@@ -37,7 +37,7 @@ const Cart = () => {
           body: JSON.stringify(orderData),
         }
       );
-      console.log(user);
+      console.log(user.data);
       if (response.ok) {
         alert("Su compra está en camino");
         dispatch(clearCart());
