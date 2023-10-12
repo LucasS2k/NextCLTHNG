@@ -25,6 +25,8 @@ const Login = () => {
         formData
       );
       if (user) {
+        console.log(user.data.token);
+        console.log(user.data.usuario);
         dispatch(
           setCurrentUser({
             ...user.usuario,

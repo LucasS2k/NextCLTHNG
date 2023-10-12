@@ -2,6 +2,7 @@ import React from "react";
 import { CartStyled } from "../styles/CartStyles";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { selectUser } from "../redux/user/userSlice";
 import {
   clearCart,
   finishBuying,
@@ -9,10 +10,8 @@ import {
 } from "../redux/cart/cartSlice";
 import CartCard from "./CartCard";
 const Cart = () => {
-  const currentUser = useSelector((state) => state.currentUser);
-  if (currentUser) {
-    console.log(currentUser);
-  }
+  const user = useSelector(selectUser);
+  console.log(user);
   const dispatch = useDispatch();
   const hiddenCart = useSelector((state) => state.cart.hidden);
   const { cartItems } = useSelector((state) => state.cart);
@@ -32,12 +31,12 @@ const Cart = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-token": currentUser.token,
+            "x-token": user.token,
           },
         }
       );
 
-      console.log(currentUser);
+      console.log(user);
 
       if (response.status === 200) {
         alert("Su compra está en camino");
@@ -90,7 +89,7 @@ const Cart = () => {
                   if (window.confirm("Finalizar compra?")) {
                     const orderData = {
                       createdAt: new Date(),
-                      user: currentUser,
+                      user: user.usuario,
                       price: precioTotal,
                       shippingCost: 0,
                       items: cartItems,
