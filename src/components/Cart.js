@@ -89,7 +89,7 @@ const Cart = () => {
                   if (window.confirm("Finalizar compra?")) {
                     const orderData = {
                       createdAt: new Date(),
-                      user: user.usuario,
+                      user: user,
                       price: precioTotal,
                       shippingCost: 0,
                       items: cartItems,

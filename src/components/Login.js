@@ -20,21 +20,16 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const user = await axios.post(
+      const response = await axios.post(
         "https://next-api-taupe.vercel.app/auth/login",
         formData
       );
-      if (user) {
-        console.log(user.data.token);
-        console.log(user.data.usuario);
-        dispatch(
-          setCurrentUser({
-            ...user.usuario,
-            token: user.token,
-          })
-        );
+      if (response.status === 202) {
+        const user = response.data;
+
+        dispatch(setCurrentUser(user));
+        console.log("Sesion iniciada", user.token);
       }
-      console.log("Sesion iniciada", user.data.token);
     } catch (error) {
       console.error("Inicio de sesion fallido", error);
     }

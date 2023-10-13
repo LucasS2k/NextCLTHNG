@@ -5,7 +5,6 @@ import { persistStore, persistReducer } from "redux-persist";
 import userReducer from "./user/userSlice";
 const reducers = combineReducers({
   cart: cartReducer,
-  user: userReducer,
 });
 const persistConfig = {
   key: "root",
@@ -15,6 +14,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers);
 export const store = configureStore({
   reducer: persistedReducer,
+  user: userReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
 });
