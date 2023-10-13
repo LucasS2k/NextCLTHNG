@@ -1,15 +1,16 @@
 import React from "react";
+import { FormStyled } from "../styles/FormStyles";
 import { LoginStyled } from "../styles/LoginStyles";
 const NotFound = () => {
   return (
     <>
       <LoginStyled>
-        <div className="formulario">
+        <FormStyled>
           <div>404 </div>
           <div>
             Se supone que no deberia estar aquí, está siendo redireccionado
           </div>
-        </div>
+        </FormStyled>
       </LoginStyled>
     </>
   );

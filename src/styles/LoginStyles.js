@@ -2,27 +2,6 @@ import styled from "styled-components";
 export const LoginStyled = styled.form`
   display: flex;
   justify-content: center;
-  .formulario {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: var(--blanco);
-    padding: 1rem;
-    width: 70%;
-    height: 70%;
-    gap: 16px;
-    color: var(--negro);
-    font-weight: 500;
-    margin-top: 100px;
-    left: auto;
-    right: auto;
-    box-shadow: 10px 9px 10px -6px rgba(0, 0, 0, 0.99);
-    -webkit-box-shadow: 10px 9px 10px -6px rgba(0, 0, 0, 0.99);
-    -moz-box-shadow: 10px 9px 10px -6px rgba(0, 0, 0, 0.99);
-  }
-  .formulario a {
-    color: var(--negro);
-  }
   input {
     transition: all 0.5s;
   }

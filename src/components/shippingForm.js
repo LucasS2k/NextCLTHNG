@@ -1,6 +1,7 @@
 import { InputStyled } from "../styles/FormStyles";
 import { LoginStyled } from "../styles/LoginStyles";
 import React, { useState } from "react";
+import { FormStyled } from "../styles/FormStyles";
 
 const ShippingForm = () => {
   const [code, setCode] = useState("");
@@ -44,7 +45,7 @@ const ShippingForm = () => {
 
   return (
     <LoginStyled onSubmit={handleSubmit}>
-      <div className="formulario">
+      <FormStyled>
         <label>Ingrese su código postal:</label>
         <InputStyled
           type="number"
@@ -58,7 +59,7 @@ const ShippingForm = () => {
           Calcular envío
         </button>
         <span>Costo de envío: {shippingValue}</span>
-      </div>
+      </FormStyled>
     </LoginStyled>
   );
 };

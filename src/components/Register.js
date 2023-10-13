@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { LoginStyled } from "../styles/LoginStyles";
+import { FormStyled } from "../styles/FormStyles";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ErrorStyled, InputStyled } from "../styles/FormStyles";
@@ -60,7 +61,7 @@ function Register() {
       onSubmit={handleSubmit}
     >
       <LoginStyled onSubmit={handleSubmit}>
-        <div className="formulario">
+        <FormStyled>
           <label htmlFor="nombre">Ingrese su Nombre:</label>
           <InputStyled
             type="text"
@@ -105,8 +106,10 @@ function Register() {
               className="checkbox"
             ></input>
           </div>
-          <button type="submit">Registrar</button>
-        </div>
+          <button type="submit" className="submitbutton">
+            Registrar
+          </button>
+        </FormStyled>
       </LoginStyled>
     </Formik>
   );

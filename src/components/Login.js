@@ -4,6 +4,7 @@ import { InputStyled } from "../styles/FormStyles";
 import { LoginStyled } from "../styles/LoginStyles";
 import { setCurrentUser } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { FormStyled } from "../styles/FormStyles";
 const Login = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -28,7 +29,7 @@ const Login = () => {
         const user = response.data;
 
         dispatch(setCurrentUser(user));
-        console.log("Sesion iniciada", user.token);
+        console.log("Sesion iniciada", user);
       }
     } catch (error) {
       console.error("Inicio de sesion fallido", error);
@@ -37,7 +38,7 @@ const Login = () => {
 
   return (
     <LoginStyled onSubmit={handleSubmit}>
-      <div className="formulario">
+      <FormStyled>
         <label htmlFor="email">Ingrese su Email:</label>
         <InputStyled
           name="email"
@@ -58,7 +59,7 @@ const Login = () => {
 
         <a href="/login">Olvidé mi contraseña</a>
         <a href="/register">Crear una cuenta</a>
-      </div>
+      </FormStyled>
     </LoginStyled>
   );
 };
