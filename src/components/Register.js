@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import { LoginStyled } from "../styles/LoginStyles";
 import { FormStyled } from "../styles/FormStyles";
 import { Formik, ErrorMessage } from "formik";
@@ -33,18 +34,17 @@ function Register() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "https://next-api-taupe.vercel.app/auth/register",
+        formData, // Axios automatically serializes the data as JSON
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
         }
       );
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Usuario registrado exitosamente");
       } else {
         console.error("Registro fallido");

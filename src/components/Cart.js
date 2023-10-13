@@ -12,6 +12,7 @@ import CartCard from "./CartCard";
 const Cart = () => {
   const user = useSelector(selectUser);
   console.log(user);
+  console.log(user.user.token);
   const dispatch = useDispatch();
   const hiddenCart = useSelector((state) => state.cart.hidden);
   const { cartItems } = useSelector((state) => state.cart);
@@ -31,14 +32,14 @@ const Cart = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-token": user.token,
+            "x-token": user.user.token,
           },
         }
       );
 
       console.log(user);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         alert("Su compra está en camino");
         dispatch(clearCart());
       } else {
@@ -89,7 +90,7 @@ const Cart = () => {
                   if (window.confirm("Finalizar compra?")) {
                     const orderData = {
                       createdAt: new Date(),
-                      user: user,
+                      user: user.user.token,
                       price: precioTotal,
                       shippingCost: 0,
                       items: cartItems,
