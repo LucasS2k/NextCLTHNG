@@ -93,7 +93,7 @@ const Header = () => {
           </li>
           <div className="lineagris"></div>
           <li>
-            {user ? (
+            {user.user ? (
               <Link to="/profile">Perfil</Link>
             ) : (
               <Link to="/login">Iniciar Sesión</Link>
@@ -101,7 +101,7 @@ const Header = () => {
           </li>
           <div className="lineagris"></div>
           <li>
-            {user ? (
+            {user.user ? (
               <Link to="/">Cerrar sesión</Link>
             ) : (
               <Link to="/register">Registrarse</Link>
