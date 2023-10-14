@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import { toggleHiddenCart } from "../redux/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/user/userSlice";
+import { clearCurrentUser } from "../redux/user/userSlice";
 const NavLinkStyled = styled(NavLink)`
   color: var(--blanco);
   display: flex;
@@ -21,6 +22,9 @@ const NavLinkStyled = styled(NavLink)`
 const Header = () => {
   const [isShown, setIsShown] = useState(false);
   const user = useSelector(selectUser);
+  const handleClearUser = () => {
+    dispatch(clearCurrentUser());
+  };
   const handleClick = (event) => {
     setIsShown((current) => !current);
   };
@@ -102,7 +106,9 @@ const Header = () => {
           <div className="lineagris"></div>
           <li>
             {user.user ? (
-              <Link to="/">Cerrar sesión</Link>
+              <Link to="/" onClick={handleClearUser}>
+                Cerrar sesión
+              </Link>
             ) : (
               <Link to="/register">Registrarse</Link>
             )}

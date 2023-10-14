@@ -5,6 +5,7 @@ import { LoginStyled } from "../styles/LoginStyles";
 import { setCurrentUser } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { FormStyled } from "../styles/FormStyles";
+import { redirect } from "react-router-dom";
 const Login = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -29,6 +30,7 @@ const Login = () => {
         const user = response.data;
 
         dispatch(setCurrentUser(user));
+        redirect("/home");
         console.log("Sesion iniciada", user);
       }
     } catch (error) {
