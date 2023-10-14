@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { StyledHeader } from "../styles/HeaderStyles";
-import Logo from "../assets/img/magicianlogo.png";
 import { Link, NavLink } from "react-router-dom";
 import { styled } from "styled-components";
 import { toggleHiddenCart } from "../redux/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../redux/user/userSlice";
 const NavLinkStyled = styled(NavLink)`
   color: var(--blanco);
   display: flex;
@@ -20,7 +20,7 @@ const NavLinkStyled = styled(NavLink)`
 `;
 const Header = () => {
   const [isShown, setIsShown] = useState(false);
-
+  const user = useSelector(selectUser);
   const handleClick = (event) => {
     setIsShown((current) => !current);
   };
@@ -93,11 +93,19 @@ const Header = () => {
           </li>
           <div className="lineagris"></div>
           <li>
-            <Link to="/login">Iniciar Sesión</Link>
+            {user ? (
+              <Link to="/profile">Perfil</Link>
+            ) : (
+              <Link to="/login">Iniciar Sesión</Link>
+            )}
           </li>
           <div className="lineagris"></div>
           <li>
-            <Link to="/register">Registrarse</Link>
+            {user ? (
+              <Link to="/">Cerrar sesión</Link>
+            ) : (
+              <Link to="/register">Registrarse</Link>
+            )}
           </li>
           <div className="lineagris"></div>
         </ul>
