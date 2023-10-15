@@ -3,6 +3,7 @@ import { selectUser } from "../redux/user/userSlice";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import OrderCard from "./OrderCard";
+import { OrderContainerStyled } from "../styles/OrdersContainerStyles";
 
 const Orders = () => {
   const user = useSelector(selectUser);
@@ -33,22 +34,24 @@ const Orders = () => {
 
   return (
     <>
-      {loading ? (
-        <div>Cargando...</div>
-      ) : data.data.length > 0 ? (
-        data.data.map((item) => (
-          <OrderCard
-            key={item._id}
-            createdAt={item.createdAt}
-            price={item.price}
-            shippingCost={item.shippingCost}
-            _id={item._id}
-            items={item.items}
-          />
-        ))
-      ) : (
-        <div>No hay compras registradas</div>
-      )}
+      <OrderContainerStyled>
+        {loading ? (
+          <div>Cargando...</div>
+        ) : data.data.length > 0 ? (
+          data.data.map((item) => (
+            <OrderCard
+              key={item._id}
+              createdAt={item.createdAt}
+              price={item.price}
+              shippingCost={item.shippingCost}
+              _id={item._id}
+              items={item.items}
+            />
+          ))
+        ) : (
+          <div>No hay compras registradas</div>
+        )}
+      </OrderContainerStyled>
     </>
   );
 };
