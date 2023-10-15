@@ -51,15 +51,26 @@ const Header = () => {
             </NavLinkStyled>
           </li>
           <li>
-            <NavLinkStyled to="/login">
-              <i className="fa-solid fa-user"></i>Iniciar Sesión
-            </NavLinkStyled>
+            {user.user ? (
+              <NavLinkStyled to="/profile">
+                <i className="fa-solid fa-user"></i>Perfil
+              </NavLinkStyled>
+            ) : (
+              <NavLinkStyled to="/login">
+                <i className="fa-solid fa-user"></i>Iniciar Sesión
+              </NavLinkStyled>
+            )}
           </li>
           <li>
-            <NavLinkStyled to="/register">
-              {" "}
-              <i className="fa-regular fa-user"></i>Registrarse
-            </NavLinkStyled>
+            {user.user ? (
+              <NavLinkStyled to="/" onClick={handleClearUser}>
+                <i className="fa-regular fa-user"></i>Cerrar sesión
+              </NavLinkStyled>
+            ) : (
+              <NavLinkStyled to="/register">
+                <i className="fa-regular fa-user"></i>Registrarse
+              </NavLinkStyled>
+            )}
           </li>
         </ul>
       </nav>
