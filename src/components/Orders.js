@@ -43,6 +43,7 @@ const Orders = () => {
             price={item.price}
             shippingCost={item.shippingCost}
             _id={item._id}
+            items={item.items}
           />
         ))
       ) : (

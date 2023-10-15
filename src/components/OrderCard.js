@@ -1,12 +1,14 @@
 import { OrderCardStyled } from "../styles/OrderCardStyles";
 const OrderCard = ({ createdAt, items, price, shippingCost, _id }) => {
+  const totalQuantity = items
+    ? items.reduce((total, item) => total + item.quantity, 0)
+    : 0;
   return (
     <OrderCardStyled key={_id}>
-      <span>${createdAt}</span>
-      <span>${price}</span>
-      <span>${shippingCost}</span>
-      <span>{_id}</span>
-      <span></span>
+      <span>Productos: {totalQuantity}</span>
+      <span>{createdAt}</span>
+      <span>Total: ${price}</span>
+      <span>Costo de envio: ${shippingCost}</span>
     </OrderCardStyled>
   );
 };
