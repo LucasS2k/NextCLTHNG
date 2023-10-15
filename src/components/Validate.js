@@ -1,5 +1,5 @@
 import { selectUser } from "../redux/user/userSlice";
-import { useState } from "react";
+import { Children, useState } from "react";
 import { FormStyled } from "../styles/FormStyles";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -24,7 +24,7 @@ const Validate = () => {
     } catch (error) {
       console.log(error);
       //en caso de error controlarlo
-      //asda
+      console.log();
     }
   };
   return (
