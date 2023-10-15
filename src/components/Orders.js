@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../redux/user/userSlice";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import OrderCard from "./OrderCard";
 
 const Orders = () => {
   const user = useSelector(selectUser);
@@ -35,7 +36,15 @@ const Orders = () => {
       {loading ? (
         <div>Cargando...</div>
       ) : data.data.length > 0 ? (
-        data.data.map((item) => <div key={item._id}>Valor: ${item.price}</div>)
+        data.data.map((item) => (
+          <OrderCard
+            key={item._id}
+            createdAt={item.createdAt}
+            price={item.price}
+            shippingCost={item.shippingCost}
+            _id={item._id}
+          />
+        ))
       ) : (
         <div>No hay compras registradas</div>
       )}
