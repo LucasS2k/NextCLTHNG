@@ -24,6 +24,7 @@ const Validate = () => {
     } catch (error) {
       console.log(error);
       //en caso de error controlarlo
+      //asda
     }
   };
   return (
