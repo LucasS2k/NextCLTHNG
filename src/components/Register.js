@@ -53,45 +53,46 @@ function Register() {
   return (
     <LoginStyled onSubmit={formik.handleSubmit}>
       <FormStyled>
-        <label htmlFor="nombre">Ingrese su Nombre:</label>
-        <InputStyled
-          type="text"
-          id="nombre"
-          name="nombre"
-          onChange={formik.handleChange}
-          value={formik.values.nombre}
-        />
-        {formik.touched.nombre && formik.errors.nombre ? (
-          <div>{formik.errors.nombre}</div>
-        ) : null}
-
-        <label htmlFor="email">Ingrese su Email:</label>
-        <InputStyled
-          type="text"
-          id="email"
-          name="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-        />
-        {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
-        ) : null}
-
-        <label htmlFor="password">Ingrese una contraseña:</label>
-        <InputStyled
-          type="password"
-          id="password"
-          name="password"
-          onChange={formik.handleChange}
-          value={formik.values.password}
-        />
-        {formik.touched.password && formik.errors.password ? (
-          <div>{formik.errors.password}</div>
-        ) : null}
-
-        <button type="submit" className="submitbutton">
-          Registrar
-        </button>
+        <div>
+          <label htmlFor="nombre">Ingrese su Nombre:</label>
+          <InputStyled
+            type="text"
+            id="nombre"
+            name="nombre"
+            onChange={formik.handleChange}
+            value={formik.values.nombre}
+          />
+          {formik.touched.nombre && formik.errors.nombre ? (
+            <div>{formik.errors.nombre}</div>
+          ) : null}
+        </div>
+        <div>
+          <label htmlFor="email">Ingrese su Email:</label>
+          <InputStyled
+            type="text"
+            id="email"
+            name="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+          />
+          {formik.touched.email && formik.errors.email ? (
+            <div>{formik.errors.email}</div>
+          ) : null}
+        </div>
+        <div>
+          <label htmlFor="password">Ingrese una contraseña:</label>
+          <InputStyled
+            type="password"
+            id="password"
+            name="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+          />
+          {formik.touched.password && formik.errors.password ? (
+            <div>{formik.errors.password}</div>
+          ) : null}
+        </div>
+        <button type="submit">Registrar</button>
       </FormStyled>
     </LoginStyled>
   );
