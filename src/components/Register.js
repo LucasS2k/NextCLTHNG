@@ -1,10 +1,10 @@
-import { useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { useFormik } from "formik";
 import { LoginStyled } from "../styles/LoginStyles";
-import { FormStyled } from "../styles/FormStyles";
-import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { ErrorStyled, InputStyled } from "../styles/FormStyles";
+import axios from "axios";
+import { FormStyled, InputStyled } from "../styles/FormStyles";
+
 const validationSchema = Yup.object({
   nombre: Yup.string().required("Ingrese su nombre"),
   email: Yup.string()
@@ -18,100 +18,83 @@ const validationSchema = Yup.object({
     .matches(/[a-z]/, "La contraseña debe tener al menos una minúscula")
     .matches(/[A-Z]/, "La contraseña debe tener al menos una mayúscula"),
 });
+
 function Register() {
-  const [formData, setFormData] = useState({
-    nombre: "",
-    email: "",
-    password: "",
+  const formik = useFormik({
+    initialValues: {
+      nombre: "",
+      email: "",
+      password: "",
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post(
+          "https://next-api-taupe.vercel.app/auth/register",
+          values,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status === 201) {
+          console.log("Usuario registrado exitosamente");
+        } else {
+          console.error("Registro fallido");
+        }
+      } catch (error) {
+        console.error("Ha ocurrido un error", error);
+      }
+    },
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "https://next-api-taupe.vercel.app/auth/register",
-        formData, // Axios automatically serializes the data as JSON
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Usuario registrado exitosamente");
-      } else {
-        console.error("Registro fallido");
-      }
-    } catch (error) {
-      console.error("Ha ocurrido un error", error);
-    }
-  };
-
   return (
-    <Formik
-      initialValues={formData}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      <LoginStyled onSubmit={handleSubmit}>
-        <FormStyled>
-          <label htmlFor="nombre">Ingrese su Nombre:</label>
-          <InputStyled
-            type="text"
-            id="nombre"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-            placeholder="Ingrese su Nombre:"
-          />
+    <LoginStyled onSubmit={formik.handleSubmit}>
+      <FormStyled>
+        <label htmlFor="nombre">Ingrese su Nombre:</label>
+        <InputStyled
+          type="text"
+          id="nombre"
+          name="nombre"
+          onChange={formik.handleChange}
+          value={formik.values.nombre}
+        />
+        {formik.touched.nombre && formik.errors.nombre ? (
+          <div>{formik.errors.nombre}</div>
+        ) : null}
 
-          <ErrorMessage name="nombre" component={ErrorStyled} />
-          <label htmlFor="email">Ingrese su Email:</label>
-          <InputStyled
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Ingrese su Email:"
-          />
-          <ErrorMessage name="email" component={ErrorStyled} />
-          <label htmlFor="password">Ingrese una contraseña:</label>
-          <InputStyled
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Ingrese una contraseña:"
-          />
-          <ErrorMessage name="password" component={ErrorStyled} />
-          <div className="checkboxs">
-            Deseo recibir novedades en mi casilla de correo
-            <input type="checkbox" className="checkbox" />
-          </div>
-          <div className="checkboxs">
-            He leído y acepto los términos y condiciones
-            <input
-              type="checkbox"
-              name="terms"
-              label=" "
-              className="checkbox"
-            ></input>
-          </div>
-          <button type="submit" className="submitbutton">
-            Registrar
-          </button>
-        </FormStyled>
-      </LoginStyled>
-    </Formik>
+        <label htmlFor="email">Ingrese su Email:</label>
+        <InputStyled
+          type="text"
+          id="email"
+          name="email"
+          onChange={formik.handleChange}
+          value={formik.values.email}
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <div>{formik.errors.email}</div>
+        ) : null}
+
+        <label htmlFor="password">Ingrese una contraseña:</label>
+        <InputStyled
+          type="password"
+          id="password"
+          name="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+        />
+        {formik.touched.password && formik.errors.password ? (
+          <div>{formik.errors.password}</div>
+        ) : null}
+
+        <button type="submit" className="submitbutton">
+          Registrar
+        </button>
+      </FormStyled>
+    </LoginStyled>
   );
 }
+
 export default Register;

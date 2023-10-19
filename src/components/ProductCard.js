@@ -1,7 +1,8 @@
-import React from "react";
-
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/cart/cartSlice";
+import Modal from "./Modal";
+
 const ProductCard = ({
   id,
   nombre,
@@ -11,6 +12,26 @@ const ProductCard = ({
   cantidad,
 }) => {
   const dispatch = useDispatch();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const dynamicMessage = "Producto agregado al carrito!";
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        id,
+        nombre,
+        precio,
+        productImage,
+        category,
+        cantidad,
+      })
+    );
+    setIsModalVisible(true);
+    setTimeout(() => {
+      setIsModalVisible(false);
+    }, 2000);
+  };
+
   return (
     <div className="item">
       <img src={productImage} alt={nombre} />
@@ -20,18 +41,7 @@ const ProductCard = ({
       <div className="itemfoot">
         <span className="valor">${precio}</span>
         <button
-          onClick={() =>
-            dispatch(
-              addToCart({
-                id,
-                nombre,
-                precio,
-                productImage,
-                category,
-                cantidad,
-              })
-            )
-          }
+          onClick={handleAddToCart}
           className="boton-agregar"
           data-id={id}
           data-name={nombre}
@@ -43,6 +53,8 @@ const ProductCard = ({
           Agregar al carrito
         </button>
       </div>
+
+      {isModalVisible && <Modal message={dynamicMessage} />}
     </div>
   );
 };
