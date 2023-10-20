@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { LoginStyled } from "../styles/LoginStyles";
 import * as Yup from "yup";
+import { ErrorStyled } from "../styles/FormStyles";
 import axios from "axios";
 import { FormStyled, InputStyled } from "../styles/FormStyles";
+import Modal from "./Modal";
 
 const validationSchema = Yup.object({
-  nombre: Yup.string().required("Ingrese su nombre"),
+  nombre: Yup.string().required("El nombre es obligatorio"),
   email: Yup.string()
     .trim()
     .email("Email inválido")
-    .required("Ingrese un Email"),
+    .required("Ingrese un email"),
   password: Yup.string()
     .required("Ingrese una contraseña")
     .min(8, "La contraseña debe tener al menos 8 caracteres")
@@ -20,6 +22,8 @@ const validationSchema = Yup.object({
 });
 
 function Register() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const dynamicMessage = "Registrado con éxito, ya puede iniciar sesión";
   const formik = useFormik({
     initialValues: {
       nombre: "",
@@ -41,6 +45,10 @@ function Register() {
 
         if (response.status === 201) {
           console.log("Usuario registrado exitosamente");
+          setIsModalVisible(true);
+          setTimeout(() => {
+            setIsModalVisible(false);
+          }, 2000);
         } else {
           console.error("Registro fallido");
         }
@@ -54,29 +62,35 @@ function Register() {
     <LoginStyled onSubmit={formik.handleSubmit}>
       <FormStyled>
         <div>
-          <label htmlFor="nombre">Ingrese su Nombre:</label>
+          <label htmlFor="nombre">Ingrese su nombre:</label>
           <InputStyled
             type="text"
             id="nombre"
             name="nombre"
             onChange={formik.handleChange}
             value={formik.values.nombre}
+            placeholder="Ingrese su nombre:"
           />
           {formik.touched.nombre && formik.errors.nombre ? (
-            <div>{formik.errors.nombre}</div>
+            <div>
+              <ErrorStyled>{formik.errors.nombre}</ErrorStyled>
+            </div>
           ) : null}
         </div>
         <div>
-          <label htmlFor="email">Ingrese su Email:</label>
+          <label htmlFor="email">Ingrese su email:</label>
           <InputStyled
             type="text"
             id="email"
             name="email"
             onChange={formik.handleChange}
             value={formik.values.email}
+            placeholder="Ingrese su email:"
           />
           {formik.touched.email && formik.errors.email ? (
-            <div>{formik.errors.email}</div>
+            <div>
+              <ErrorStyled>{formik.errors.email}</ErrorStyled>
+            </div>
           ) : null}
         </div>
         <div>
@@ -87,12 +101,18 @@ function Register() {
             name="password"
             onChange={formik.handleChange}
             value={formik.values.password}
+            placeholder="Ingrese una contraseña:"
           />
           {formik.touched.password && formik.errors.password ? (
-            <div>{formik.errors.password}</div>
+            <div>
+              <ErrorStyled>{formik.errors.password}</ErrorStyled>
+            </div>
           ) : null}
         </div>
-        <button type="submit">Registrar</button>
+        <button type="submit" className="submitbutton">
+          Registrarse
+        </button>
+        {isModalVisible && <Modal message={dynamicMessage} />}
       </FormStyled>
     </LoginStyled>
   );
