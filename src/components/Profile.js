@@ -5,7 +5,6 @@ import Orders from "./Orders";
 
 const Profile = () => {
   const user = useSelector(selectUser);
-  //comment
   if (!user) {
     return null;
   }
