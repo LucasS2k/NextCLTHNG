@@ -7,7 +7,7 @@ const Profile = () => {
   const user = useSelector(selectUser);
   if (!user) {
     return null;
-  }
+  } //a
   return (
     <div>
       {user.user && user.user.usuario.verified ? <Orders /> : <Validate />}
