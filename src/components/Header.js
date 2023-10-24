@@ -23,7 +23,9 @@ const Header = () => {
   const [isShown, setIsShown] = useState(false);
   const user = useSelector(selectUser);
   const handleClearUser = () => {
-    dispatch(clearCurrentUser());
+    if (window.confirm("Cerrar sesión?")) {
+      dispatch(clearCurrentUser());
+    }
   };
   const handleClick = (event) => {
     setIsShown((current) => !current);

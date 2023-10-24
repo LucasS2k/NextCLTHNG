@@ -5,10 +5,11 @@ import { LoginStyled } from "../styles/LoginStyles";
 import { setCurrentUser } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { FormStyled } from "../styles/FormStyles";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [wrong, setIsWrong] = useState(false);
+  const [isWrong, setIsWrong] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,15 +30,15 @@ const Login = () => {
       );
       if (response.status === 202) {
         const user = response.data;
-
         dispatch(setCurrentUser(user));
-        redirect("/home");
         setIsWrong(false);
         console.log("Sesion iniciada", user);
-      } else if (response.status === 401) {
-        setIsWrong(true);
+        navigate("/");
       }
     } catch (error) {
+      if (error.response.status === 401) {
+        setIsWrong(true);
+      }
       console.error("Inicio de sesion fallido", error);
     }
   };
@@ -61,14 +62,13 @@ const Login = () => {
           value={formData.password}
           onChange={handleChange}
         />
-        {setIsWrong ? (
+        {isWrong ? (
           <div>
             <ErrorStyled>Contraseña incorrecta</ErrorStyled>
           </div>
         ) : null}
         <input type="submit" className="submitbutton" />
 
-        <a href="/login">Olvidé mi contraseña</a>
         <a href="/register">Crear una cuenta</a>
       </FormStyled>
     </LoginStyled>

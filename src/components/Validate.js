@@ -6,7 +6,9 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { InputStyled } from "../styles/FormStyles";
 import { LoginStyled } from "../styles/LoginStyles";
+import { useNavigate } from "react-router-dom";
 const Validate = () => {
+  const navigate = useNavigate();
   const user = useSelector(selectUser);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -21,6 +23,9 @@ const Validate = () => {
           code: code,
         }
       );
+      if (response.status === 200) {
+        navigate("/");
+      }
     } catch (error) {
       console.log(error);
     }
