@@ -1,4 +1,9 @@
-import { OrderCardStyled } from "../styles/OrderCardStyles";
+import {
+  OrderCardStyled,
+  OrderDescription,
+  StyledItems,
+  ShowMore,
+} from "../styles/OrderCardStyles";
 import { useState } from "react";
 
 const OrderCard = ({ createdAt, items, price, shippingCost, _id }) => {
@@ -21,26 +26,27 @@ const OrderCard = ({ createdAt, items, price, shippingCost, _id }) => {
 
   return (
     <OrderCardStyled key={_id}>
-      <span>Productos: {totalQuantity}</span>
-      <span>{formattedDate}</span>
-      <span>Total: ${price}</span>
-      <span>Costo de envío: ${shippingCost}</span>
-
+      <OrderDescription>
+        <span>Productos: {totalQuantity}</span>
+        <span>{formattedDate}</span>
+        <span>Total: ${price}</span>
+        <span>Costo de envío: ${shippingCost}</span>
+      </OrderDescription>
       {showItems && (
         <div>
           {items.map((item, index) => (
-            <div key={item._id}>
+            <StyledItems key={item._id}>
               <span>{item.nombre}</span>
               <span>Cantidad: {item.quantity}</span>
               <span>Precio: ${item.precio}</span>
-            </div>
+            </StyledItems>
           ))}
         </div>
       )}
 
-      <button onClick={toggleItems}>
+      <ShowMore onClick={toggleItems}>
         {showItems ? "Ocultar detalles" : "Mostrar detalles"}
-      </button>
+      </ShowMore>
     </OrderCardStyled>
   );
 };
