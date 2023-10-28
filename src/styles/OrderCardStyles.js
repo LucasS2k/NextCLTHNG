@@ -29,4 +29,7 @@ export const ShowMore = styled.button`
   font-weight: 700;
   padding: 7px;
   border-radius: 10px;
+  &:hover {
+    color: var(--amarillo);
+  }
 `;
