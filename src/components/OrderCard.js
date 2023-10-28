@@ -3,6 +3,7 @@ import {
   OrderDescription,
   StyledItems,
   ShowMore,
+  ItemContainer,
 } from "../styles/OrderCardStyles";
 import { useState } from "react";
 
@@ -32,16 +33,18 @@ const OrderCard = ({ createdAt, items, price, shippingCost, _id }) => {
         <span>Total: ${price}</span>
         <span>Costo de envío: ${shippingCost}</span>
       </OrderDescription>
+
       {showItems && (
-        <div>
+        <ItemContainer>
+          <div className="purpleLine"></div>
           {items.map((item, index) => (
             <StyledItems key={item._id}>
               <span>{item.nombre}</span>
               <span>Cantidad: {item.quantity}</span>
-              <span>Precio: ${item.precio}</span>
+              <span>Valor: ${item.precio}</span>
             </StyledItems>
           ))}
-        </div>
+        </ItemContainer>
       )}
 
       <ShowMore onClick={toggleItems}>

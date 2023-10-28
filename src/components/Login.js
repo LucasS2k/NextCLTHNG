@@ -37,7 +37,9 @@ const Login = () => {
       }
     } catch (error) {
       if (error.response.status === 401) {
-        setIsWrong(true);
+        setIsWrong("Contraseña incorrecta");
+      } else if (error.response.status === 404) {
+        setIsWrong("Usuario no registrado");
       }
       console.error("Inicio de sesion fallido", error);
     }
@@ -64,7 +66,7 @@ const Login = () => {
         />
         {isWrong ? (
           <div>
-            <ErrorStyled>Contraseña incorrecta</ErrorStyled>
+            <ErrorStyled>{isWrong}</ErrorStyled>
           </div>
         ) : null}
         <input type="submit" className="submitbutton" />

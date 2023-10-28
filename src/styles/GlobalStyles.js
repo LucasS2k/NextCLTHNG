@@ -83,6 +83,16 @@ body {
   width: 50%;
   height: 2px;
 }
+.purpleLine::before {display: flex;
+  justify-content: center;
+  position: relative;
+  content: "";
+  background-color: var(--amarillo);
+  border-top: 2px;
+  width: 100%;
+  height: 2px;
+  margin-bottom: 0.5rem;
+  }
 .hidden {
   display: none;
 }

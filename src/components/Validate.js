@@ -1,5 +1,6 @@
 import { selectUser } from "../redux/user/userSlice";
-import { Children, useState } from "react";
+import { useState } from "react";
+import { ErrorStyled } from "../styles/FormStyles";
 import { FormStyled } from "../styles/FormStyles";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -8,6 +9,7 @@ import { InputStyled } from "../styles/FormStyles";
 import { LoginStyled } from "../styles/LoginStyles";
 import { useNavigate } from "react-router-dom";
 const Validate = () => {
+  const [isWrong, setIsWrong] = useState(false);
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   const [email, setEmail] = useState("");
@@ -27,6 +29,10 @@ const Validate = () => {
         navigate("/");
       }
     } catch (error) {
+      if (error.response.status === 401) {
+        setIsWrong("El código ingresado es incorrecto");
+      }
+
       console.log(error);
     }
   };
@@ -49,8 +55,13 @@ const Validate = () => {
           value={code}
           onChange={(e) => setCode(e.target.value)}
         />
+        {isWrong ? (
+          <div>
+            <ErrorStyled>{isWrong}</ErrorStyled>
+          </div>
+        ) : null}
         <button type="submit" className="submitbutton" onClick={handleSubmit}>
-          Verificar usuario
+          Validar usuario
         </button>
       </FormStyled>
     </LoginStyled>
