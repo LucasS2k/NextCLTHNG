@@ -44,7 +44,6 @@ function Register() {
         );
 
         if (response.status === 201) {
-          console.log("Usuario registrado exitosamente");
           setIsModalVisible(true);
           setTimeout(() => {
             setIsModalVisible(false);

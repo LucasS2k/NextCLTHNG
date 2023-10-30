@@ -11,10 +11,6 @@ import {
 import CartCard from "./CartCard";
 const Cart = () => {
   const user = useSelector(selectUser);
-  if (user) {
-    console.log(user);
-    console.log(user.user ? user.user.token : null);
-  }
   const dispatch = useDispatch();
   const hiddenCart = useSelector((state) => state.cart.hidden);
   const { cartItems } = useSelector((state) => state.cart);
@@ -38,8 +34,6 @@ const Cart = () => {
           },
         }
       );
-
-      console.log(user);
 
       if (response.status === 201) {
         alert("Su compra está en camino");
@@ -100,7 +94,7 @@ const Cart = () => {
                       status: "pending",
                       total: precioTotal,
                     };
-                    console.log(orderData);
+
                     await sendOrderToDB(orderData);
                     finishBuying();
                   }

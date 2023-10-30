@@ -32,7 +32,6 @@ const Login = () => {
         const user = response.data;
         dispatch(setCurrentUser(user));
         setIsWrong(false);
-        console.log("Sesion iniciada", user);
         navigate("/");
       }
     } catch (error) {

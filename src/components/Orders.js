@@ -23,7 +23,6 @@ const Orders = () => {
         );
 
         setData(response.data);
-        console.log(response.data.data);
         setLoading(false);
       } catch (error) {
         setLoading(false);

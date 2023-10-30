@@ -3,9 +3,9 @@ import { StyledPayMethods } from "../styles/PayMethodsStyles";
 const PayMethods = () => {
   return (
     <StyledPayMethods>
-      {payMethodsData.map((data) => {
+      {payMethodsData.map((data, index) => {
         return (
-          <div>
+          <div key={index}>
             <img
               src={data.image}
               alt="Hero"

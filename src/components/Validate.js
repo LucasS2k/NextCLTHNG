@@ -32,13 +32,13 @@ const Validate = () => {
       if (error.response.status === 401) {
         setIsWrong("El código ingresado es incorrecto");
       }
-
-      console.log(error);
     }
   };
   return (
     <LoginStyled>
       <FormStyled onSubmit={handleSubmit}>
+        <text>Valide su cuenta y tener acceso al historial de compras</text>
+        <span>Tras una validación exitosa vuelva a iniciar sesión</span>
         <label htmlFor="email">Ingrese su email:</label>
         <InputStyled
           type="text"
