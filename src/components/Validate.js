@@ -37,7 +37,7 @@ const Validate = () => {
   return (
     <LoginStyled>
       <FormStyled onSubmit={handleSubmit}>
-        <text>Valide su cuenta y tener acceso al historial de compras</text>
+        <text>Valide su cuenta para tener acceso al historial de compras</text>
         <span>Tras una validación exitosa vuelva a iniciar sesión</span>
         <label htmlFor="email">Ingrese su email:</label>
         <InputStyled
